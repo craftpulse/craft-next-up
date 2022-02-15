@@ -104,7 +104,11 @@ class NextUp extends Plugin
             function(ModelEvent $e) {
                 $entry = $e->sender;
 
-                if($entry->sectionId == 15){
+                if(
+                    $entry->type->handle == 'locationEvent' ||
+                    $entry->type->handle == 'hybridEvent' ||
+                    $entry->type->handle == 'onlineEvent'
+                ){
                     $entry->setFieldValue('nextUpcomingEvent',NextUp::getInstance()->nextup->saveLatestEvent($entry));
                 }
             }
