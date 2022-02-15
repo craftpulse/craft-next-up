@@ -1,0 +1,26 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Next Up plugin for Craft CMS
+ *
+ * NextUpField Field Settings
+ *
+ * @author    Percipio.london
+ * @copyright Copyright (c) 2022 Percipio.london
+ * @link      https://percipio.london/
+ * @package   NextUp
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("percipiolondon\\nextup\\assetbundles\\nextup\\NextUpAsset") %}
+
+{{ forms.textField({
+    label: 'Some Attribute',
+    instructions: 'Enter some attribute here.',
+    id: 'someAttribute',
+    name: 'someAttribute',
+    value: field['someAttribute']})
+}}

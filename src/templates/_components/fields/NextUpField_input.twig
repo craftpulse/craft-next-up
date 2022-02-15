@@ -1,0 +1,24 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Next Up plugin for Craft CMS 3.x
+ *
+ * NextUpField Field Input
+ *
+ * @author    Percipio.london
+ * @copyright Copyright (c) 2022 Percipio.london
+ * @link      https://percipio.london/
+ * @package   NextUp
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{{
+    forms.hidden({
+        id: name,
+        name: name,
+        value: value
+    })
+}}
