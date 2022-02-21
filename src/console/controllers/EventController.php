@@ -53,14 +53,12 @@ class EventController extends Controller
 
                 $latestDate = NextUp::getInstance()->nextup->saveLatestEvent($event);
 
-                if(DateTimeHelper::toDateTime($latestDate)->format('U') !== $date->format('U')){
-                    echo "Update event " . $date->format('d/M/Y') . PHP_EOL;
+                echo "Update event " .$event->title .": " . $date->format('d/M/Y'). " to ". $latestDate . PHP_EOL;
 
-                    $event->setFieldValue('nextUpcomingEvent',$latestDate);
-                    Craft::$app->elements->saveElement($event);
+                $event->setFieldValue('nextUpcomingEvent',$latestDate);
+                Craft::$app->elements->saveElement($event);
 
-                    $updatedCount++;
-                }
+                $updatedCount++;
             }
         }
 

@@ -41,9 +41,9 @@ class NextUpService extends Component
 
                 $eventDate = strtotime($date->startDateTime->format('Y-m-d') . ' ' . $date->startTime->format('H:i:s')) ?? null;
 
-//                if ( $eventDate > date('U') ) {
+                if ( $eventDate > date('U') ) {
                     $eventDays[] = $eventDate;
-//                }
+                }
 
             }
 
