@@ -2,7 +2,7 @@
     "name": "percipiolondon/craft-next-up",
     "description": "Get the next upcoming event date from the matrix",
     "type": "craft-plugin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "craft",
         "cms",
