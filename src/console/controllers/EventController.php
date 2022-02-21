@@ -15,7 +15,6 @@ use percipiolondon\nextup\NextUp;
 
 use Craft;
 use yii\console\Controller;
-use yii\helpers\Console;
 
 /**
  * Default Command
@@ -46,21 +45,29 @@ class EventController extends Controller
 
         $updatedCount = 0;
 
+        echo "Start fetching upcoming events" . PHP_EOL;
+
         foreach($events as $event){
             $date = DateTimeHelper::toDateTime($event->getFieldValue('nextUpcomingEvent'));
             if($date and $date->format('U') < date('U')){
 
-                $event->setFieldValue('nextUpcomingEvent',NextUp::getInstance()->nextup->saveLatestEvent($event));
-                Craft::$app->elements->saveElement($event);
+                $latestDate = NextUp::getInstance()->nextup->saveLatestEvent($event);
 
-                $updatedCount++;
+                if(DateTimeHelper::toDateTime($latestDate)->format('U') !== $date->format('U')){
+                    echo "Update event " . $date->format('d/M/Y') . PHP_EOL;
+
+                    $event->setFieldValue('nextUpcomingEvent',$latestDate);
+                    Craft::$app->elements->saveElement($event);
+
+                    $updatedCount++;
+                }
             }
         }
 
         $time_end = microtime(true);
         $execution_time = ($time_end - $time_start);
 
-        echo $updatedCount." event(s) got updated in ".$execution_time."s\n";
+        echo $updatedCount." event(s) got updated in ".$execution_time."s" . PHP_EOL;
 
         return true;
     }
