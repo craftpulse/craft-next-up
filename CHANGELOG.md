@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0. - 2022-02-21
+### Changed
+- Updated controller to only update events between yesterday and tomorrow
+- Updated the service to save all future events (now the controller only checks specific period)
+
 ## 1.0.2 - 2022-02-21
 ### Changed
 - Updated service to only save future event dates

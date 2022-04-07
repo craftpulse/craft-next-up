@@ -49,7 +49,10 @@ class EventController extends Controller
 
         foreach($events as $event){
             $date = DateTimeHelper::toDateTime($event->getFieldValue('nextUpcomingEvent'));
-            if($date and $date->format('U') < date('U')){
+            $startCheckingFrom = new \DateTime();
+
+            //check if next upcoming event is older than yesterday but younger than tomorrow
+            if ($date and $date->format('U') > $startCheckingFrom->modify('- 1 day')->format('U') and $date->format('U') < $startCheckingFrom->modify('+ 1 day')->format('U')){
 
                 $latestDate = NextUp::getInstance()->nextup->saveLatestEvent($event);
 
