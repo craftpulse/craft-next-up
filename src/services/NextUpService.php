@@ -9,7 +9,7 @@ use yii\base\Component;
 
 class NextUpService extends Component
 {
-    public function saveLatestEvent($entry)
+    public function saveLatestEvent($entry, $checkOnlyFutureDates = false)
     {
         switch($entry->type->handle) {
             case 'locationEvent':
@@ -22,16 +22,18 @@ class NextUpService extends Component
                 $eventDates = $entry->eventDatesTimeOnline;
         }
 
-        $eventDays = $this->_sortEventDates($eventDates->all());
+        $eventDays = $this->_sortEventDates($eventDates->all(), $checkOnlyFutureDates);
 
         if(sizeOf($eventDays) === 0){
-            return null;
+            //if no existing date, at least save the lasted occured
+            $eventDays = $this->_sortEventDates($eventDates->all(), false);
+            return Db::prepareDateForDb(DateTimeHelper::toDateTime(end($eventDays)));
         }
 
         return Db::prepareDateForDb(DateTimeHelper::toDateTime($eventDays[0]));
     }
 
-    private function _sortEventDates($dates) {
+    private function _sortEventDates($dates, $checkOnlyFutureDates) {
 
         $eventDays = [];
 
@@ -41,12 +43,15 @@ class NextUpService extends Component
 
                 $eventDate = strtotime($date->startDateTime->format('Y-m-d') . ' ' . $date->startTime->format('H:i:s')) ?? null;
 
-                // if ( $eventDate > date('U') ) {
+                if ($checkOnlyFutureDates) {
+                    if ( $eventDate > date('U') ) {
+                        $eventDays[] = $eventDate;
+                    }
+                } else {
                     $eventDays[] = $eventDate;
-                // }
+                }
 
             }
-
         }
 
         usort($eventDays, function($a, $b) {

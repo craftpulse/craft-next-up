@@ -109,7 +109,7 @@ class NextUp extends Plugin
                     $entry->type->handle == 'hybridEvent' ||
                     $entry->type->handle == 'onlineEvent'
                 ){
-                    $entry->setFieldValue('nextUpcomingEvent',NextUp::getInstance()->nextup->saveLatestEvent($entry));
+                    $entry->setFieldValue('nextUpcomingEvent', NextUp::getInstance()->nextup->saveLatestEvent($entry,true));
                 }
             }
         );

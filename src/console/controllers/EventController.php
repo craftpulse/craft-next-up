@@ -51,12 +51,16 @@ class EventController extends Controller
             $date = DateTimeHelper::toDateTime($event->getFieldValue('nextUpcomingEvent'));
             $startCheckingFrom = new \DateTime();
 
-            //check if next upcoming event is older than yesterday but younger than tomorrow
-            if ($date and $date->format('U') > $startCheckingFrom->modify('- 1 day')->format('U') and $date->format('U') < $startCheckingFrom->modify('+ 1 day')->format('U')){
+            //check if next upcoming event is older than yesterday but younger than 1 year ago
+            if ($date and $date->format('U') < $startCheckingFrom->modify('+ 1 day')->format('U') and $date->format('U') > $startCheckingFrom->modify('- 1 year')->format('U')){
 
-                $latestDate = NextUp::getInstance()->nextup->saveLatestEvent($event);
+                $latestDate = NextUp::getInstance()->nextup->saveLatestEvent($event, true);
 
-                echo "Update event " .$event->title .": " . $date->format('d/M/Y'). " to ". $latestDate . PHP_EOL;
+                if (is_null($latestDate)) {
+                    $latestDate = NextUp::getInstance()->nextup->saveLatestEvent($event);
+                }
+
+                echo "Update event " .$event->title .": " .$date->format('Y-m-d') . ' ' . $date->format('H:i:s'). " to ". $latestDate . PHP_EOL;
 
                 $event->setFieldValue('nextUpcomingEvent',$latestDate);
                 Craft::$app->elements->saveElement($event);
