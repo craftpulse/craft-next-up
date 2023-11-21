@@ -1,5 +1,5 @@
 {
-    "name": "percipiolondon/craft-next-up",
+    "name": "craftpulse/craft-next-up",
     "description": "Get the next upcoming event date from the matrix",
     "type": "craft-plugin",
     "version": "1.0.4",
